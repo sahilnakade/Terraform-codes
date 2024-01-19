@@ -1,0 +1,19 @@
+provider "aws" {
+}
+
+terraform {
+  backend "s3" {
+    bucket = "4pmterraformclasses9988"
+    key    = "abc"
+    region = "ap-northeast-1"
+  }
+}
+
+resource "aws_instance" "two" {
+for_each = toset(["web-server", "app-server", "db-server"])
+ami = "ami-04beabd6a4fb6ab6f"
+instance_type = "t2.micro"
+tags = {
+Name = "${each.key}"
+}
+}
